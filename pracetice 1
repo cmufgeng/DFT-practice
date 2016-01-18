@@ -1,7 +1,7 @@
 # date: 18/01/2016
 # name: fgeng
 # practice
-from ase import Atom
+from ase import Atom, Atoms
 
 a = Atom('O',[5,6,6])
 # as far a I know, the O is the element 
@@ -15,3 +15,127 @@ print a.symbol
 print a.mass
 # I can change the type of atom by a.number = 1 or a.symbol = 'H'
 # after that, the mass, number and anything is reversed based on element you chooose
+
+
+atoms = Atoms([Atom('C', [0., 0., 0.]),
+              Atom('O', [1.1, 0., 0.])],
+              cell = (10,10,10))
+print atoms.positions
+print atoms.get_distance(0,1)
+print atoms.get_volume()# what volume is this
+
+MW = atoms.get_masses().sum()
+print MW 
+
+
+## read write and view
+from ase.io import read,write
+from ase.visualize import view
+
+atoms = read('molecules/isobutane.xyz')
+atoms.center(vacuum = 5) # what is vacuum work??
+write('images/isobutane-xyz.png',atoms,show_unit_cell=2)
+view(atoms)# what is the difference between write and view?
+
+############################################################################################
+
+from ase.structure import molecule
+import numpy as np
+
+atoms = molecule('CH3CN')
+print type(atoms)
+atoms.center(vacuum = 6)
+print atoms.positions
+atoms.rotate('x',np.pi/4, center = 'COM', rotate_cell=False)# what is this detail?
+atoms.rotate('y',np.pi/4, center = 'COM', rotate_cell = False)
+
+###########################################################################
+from ase.structure import molecule
+from ase.visuallize import view
+
+atoms1 = molecule('NH3')
+atoms2 = molecule('O2')
+atoms2.translate([3, 0, 0])
+bothatoms = atoms1+ atoms2
+bothatoms.center(5)
+
+view(bothatoms)
+
+############################################################################
+from ase.structure import molecule
+
+atoms = molecule('C6H6')# what if there is 2 isomers? like iso-butane and n-butane?
+
+print (' # sym p_x p_y p_z')
+print ('------------------')
+for i,atom in enumerate(atoms):
+  print('{0:3d}{1:^4}{2:-8.2f}{3:-8.2f}{3:8.2f}{4:8.2f}'.format(i,
+                                                                atom.symbol,
+                                                                atom.x,
+                                                                atom.y,
+                                                                atom.z))
+
+# get all properties in arrays
+sym = atoms.get_chemical_symbols()
+pos = atoms.get_positions()
+num = atoms.get_atomic_numbers()
+atom_indices = range(len(atoms))
+
+print()
+print (' # sym at# p_x p_y p_z')
+print ('------------------')
+for i, s, n, p in zip(atom_indices, sym, num, pos):
+  px, py, pz = p
+    print('{0:3d}{1:^4}{2:-8.2f}{3:-8.2f}{3:8.2f}{4:8.2f}'.format(i,
+                                                                s,
+                                                                n,
+                                                                px,
+                                                                py,
+                                                                pz))
+                                                                
+masses = atoms.get_masses()# this is a list of weight for every atom inside
+molecular_weight = masses.sum()
+molecular_formula = atoms.get_chemical_formula(mode='reduce')# what is reduce mode?
+# mg/mol?
+# get mass center
+
+# ammonia
+atoms = molecule('NH3')
+# cartesian coordinates
+print('COM1 = {0}'.format(atoms.get_center_of_mass()))
+
+# compute the center of mass by hand
+pos = atoms.positions
+masses = atoms.get_masses()
+
+COM = np.array([0., 0., 0.])
+for m, p in zip(masses, pos):
+    COM += m*p
+COM /= masses.sum()
+
+print('COM2 = {0}'.format(COM))
+
+# one-line linear algebra definition of COM
+print('COM3 = {0}'.format(np.dot(masses, pos) / np.sum(masses)))
+
+# get moments of inertia
+
+from ase.structure import molecule
+print ('linear rotors: I = [0 Ia Ia]')
+atoms = molecule('CO2')
+print (' CO2 moments of inertia {}'.format(atoms.get_moments_of_inertia()))
+print ('')
+# or
+moments, axes = atoms.get_moments_of_inertia(vectors = True)
+print 'Moments = {}'.format(moments)
+print 'axes = {}'.format(axes)
+
+# how to get bond distance?
+# firstly ensure the ranking of the bond
+for i,n in enumerate(atoms):
+  print '{0:2d}{1:3s}'.format(i, atom.symbol)
+# N-H bond
+print 'The bond length of N-H is {}'.format(atoms.get_distance(0,1))
+# choose the 0 and 1 th atom corresponding to N and H
+
+

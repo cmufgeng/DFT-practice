@@ -138,4 +138,6 @@ for i,n in enumerate(atoms):
 print 'The bond length of N-H is {}'.format(atoms.get_distance(0,1))
 # choose the 0 and 1 th atom corresponding to N and H
 
+# how to get the angle of H-N-H?
+print 'Theta = {} degrees'.format(atoms.get_angle([1,0,2])*180./np.pi)
 

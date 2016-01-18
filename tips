@@ -1,0 +1,22 @@
+# this is a convenient tip
+# for writing python
+# fgeng.findbeautyofpython
+# tip.1
+import numpy as np
+num = np.array([1,2,3,4,5,5,6])
+def tip_1(list):
+  transf = np.empty(list.shape)
+  for i,n in enumerate(list):
+    transf[i]=n**2
+    print 'successful'
+  return transf
+  
+# run it
+def test(list):
+  tip_1(list)
+  return 'test pass'
+test(num)
+
+
+  
+  

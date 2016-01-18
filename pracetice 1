@@ -1,0 +1,17 @@
+# date: 18/01/2016
+# name: fgeng
+# practice
+from ase import Atom
+
+a = Atom('O',[5,6,6])
+# as far a I know, the O is the element 
+#and [1,1,1]is the position
+
+print a.position
+
+# change atom type
+a.symbol = 'Au'
+print a.symbol
+print a.mass
+# I can change the type of atom by a.number = 1 or a.symbol = 'H'
+# after that, the mass, number and anything is reversed based on element you chooose

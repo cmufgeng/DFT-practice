@@ -1,16 +1,49 @@
 # practice 2
-# summarize what I learnt in class
+# fgeng
+# purpose: summarize what I learnt in class
 # date: 19/01/2016
+from ase import Atom, Atoms
+from ase.structure import molecule
+from ase.io import read, write
+from ase.visualize import view
 
-set up atom/atoms/cell
+#set up atom/atoms/cell**
+atom_solo = Atom('O',[1.1, 0., 0.])
+atoms = Atoms([Atom('C',[0., 0., 0.,]),
+              Atom('O',[1.1,0.,0.])],
+              cell = (10,10,10))
+molecule_1 = molecule('CH3CN')
 
-change atom/atoms/cell
+#change atom/atoms/cell**
 
-translate the distance/rotate/combine/repeat/
+#translate the distance/center and expand cell/rotate/combine/repeat/**
+translate([3,0,0])
+atoms.center(Vacuum=5)
+atoms.rotate('x',np.pi/4, center='COM', rotate_cell=False)
+atoms.rotate('y',np.pi/4, center='COM', rotate_cell=False)
+bothatoms = atom1+atom0
+bothatoms.center(5)
 
+#measure:position/mass/distance/volume/angle/bonding length/ dihelar angle/moment irarlia/get center/**
+print atoms.positions
+print atom.symbol, atom.x, atom.y, atom.z
+print atoms.get_distance(0,1)# 0th and 1st atom of this cluster
+# but before we get the distance, it is best to find out the index of atoms
+# for example.
+for i,atom in enumerate(atoms):
+  print '{0:2d}{1:3s}'.format(i,atom.symbol)
+# when we know the exact index , it is easy to find out which bond we want to calculate
 
-measure distance/angle/bonding length/ dihelar angle/moment irarlia/get center/
+print atoms.get_masses().sum()
+print atoms.get_volume()
+print atoms.get_center_of_mass()
+print atoms.get_moments_of_inertia()
+print atoms.get_angle([1,0,2])*180./np.pi
+print atoms.get_dihedral([5.,1.,0.,4])*180./np.pi
 
-
+#view/read/write/get formular**
+atom_file = read('./siobutane.xyz')
+atoms.got_chemical_formula(mode='reduce')
+view(atoms)
 
 

@@ -7,7 +7,7 @@ atoms = Atoms([Atom('H', [0.5960812, -0.7677068, 0.00000]),
                     cell = (8., 8.,8.))
 
 
-with jasp('h2o_relax',
+with jasp('simple-os',
           xc='PBE',
           encut=300,
           ibrion=2,
@@ -18,4 +18,10 @@ with jasp('h2o_relax',
     print atoms.get_forces()
     print calc
     
-          
+from jasp import *
+with jasp('simple-co') as calc:
+  atoms = calc.get_atoms()
+  forces=atoms.get_forces()
+  print forces.max()
+  print atoms.get_potential_energy()
+  

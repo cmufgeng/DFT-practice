@@ -18,5 +18,20 @@ def test(list):
 test(num)
 
 
+# how to avoid mistake or close the programming automatically 
+try:
+  prnt(1/0)
+except(NameError, ZeroDivisionError):# if NameError or ZeroDivisionError come out, then print
+  print 'You cannot divide by 0!'
   
+f = open('text.exe','a')
+f.write('a string\n')
+f.close()
+
+with open('test.txt','a') as f:
+  f.write('another')
+  print f # there you find that it is 'open file within the with function'
+print f # it is 'close file when out of function'
+
+
   

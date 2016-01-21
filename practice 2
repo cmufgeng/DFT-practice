@@ -1,0 +1,12 @@
+with jasp('h2o_relax',
+          xc='PBE',
+          encut=300,
+          ibrion=2,
+          nxw=10,
+          ediffg=1e-4,
+          atoms=atoms) as calc
+    print calc
+    print atoms.get_forces()
+    print calc
+    
+          

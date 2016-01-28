@@ -1,0 +1,22 @@
+from ase import Atoms, Atom
+from jasp import *
+import ase.units
+
+# define atoms
+atoms = Atoms()
+
+with jasp('molecules/h2o_vib',
+          xc='PBE',
+          encut = 400,
+          ismear = 0,
+          ibrion = 6,
+          nfree = 2,
+          potim = 0.015,
+          ediff = 1e-8,
+          nsw = 1,
+          atoms = atoms) as calc:
+        print (atoms.get_forces())
+        energies, modes = calc.get_vibrational_modes()# get energies for each vibrational mode
+        # remember translation and rotation do not effect energy.
+        for i, e in enumerate(energies):
+          print i,e

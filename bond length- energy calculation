@@ -1,0 +1,32 @@
+# vibrational frequency is nu = 1/2/pi*(k/mu)**0.5
+# 1/mu = 1/mC+1/mO
+# k is the second derivative of E at equilibrium bond length
+# so if we do it manually
+# for unit
+from jasp import * 
+from ase import Atom, Atoms
+
+bond_lengths = [1.05, 1.1, 1.15, 1.2, 1.25]
+energies = []
+force = []
+for d in bond_lengths:
+    co = Atoms([Atom('H',[0,0,0]),
+                Atom('H',[d,0,0]),
+                cell = (6,6,6))
+    with jasp('molecules/hh-{0}'.format(d),
+              xc = 'PBE',
+              nbands = 1,
+              encut=350,
+              ismear = 1,
+              sigma = 0.01,
+              atoms = co):
+        try:
+            e = co.get_potential_energy()
+            energies.append(e)
+            f = co.get_forces()
+            force.append(f)
+        except (VaspSubmitted, VaspQueues):
+            energies.append(None)
+            pass
+  print force
+  print energes
